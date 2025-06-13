@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -80,6 +79,7 @@ const ChangeViewPage = () => {
             </li>
             <li>
               <button
+                onClick={() => setView("carousel")}
                 className={`flex items-center space-x-3 w-full p-2 rounded text-sm ${
                   view === "carousel"
                     ? "bg-purple-100 text-purple-700 font-semibold"
@@ -126,7 +126,7 @@ const ChangeViewPage = () => {
             placeholder="Search Projects"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full sm:w-[56%] px-4 py-2 text-sm border border-white rounded-md"
+            className="w-full sm:w-[57%] px-4 py-2 text-sm bg-white border-white rounded-md"
           />
 
           <div className="flex flex-wrap items-center gap-2">
@@ -162,7 +162,7 @@ const ChangeViewPage = () => {
                         className="object-cover"
                       />
                     </div>
-                    <div className="text-center py-2 font-semibold text-sm border-t">
+                    <div className="text-center py-2 font-semibold text-sm border-t text-black dark:text-black">
                       {project.name}
                     </div>
                     <div className="bg-gray-900 py-2 flex justify-center gap-3">
@@ -203,7 +203,7 @@ const ChangeViewPage = () => {
                     className="object-cover"
                   />
                 </div>
-                <div className="text-center py-2 font-semibold text-sm border-t">
+                <div className="text-center py-2 font-semibold text-sm border-t text-black dark:text-black">
                   {projects[currentIndex].name}
                 </div>
                 <div className="bg-gray-900 py-2 flex justify-center gap-3">
