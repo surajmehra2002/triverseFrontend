@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent } from '@/components/ui/card';
-import { login } from '@/api/services/userService';
+import { login } from '@/api/services/user_login/user';
 
 export default function Login() {
   const router = useRouter();

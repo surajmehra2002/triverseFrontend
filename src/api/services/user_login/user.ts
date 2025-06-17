@@ -1,5 +1,5 @@
 // services/userService.ts
-import axiosInstance from "@/lib/axios";
+import axiosInstance from "../../axiosInstance";
 
 export const fetchUserProfile = async () => {
   const response = await axiosInstance.get('/user/profile');
