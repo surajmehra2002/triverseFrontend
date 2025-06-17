@@ -7,9 +7,13 @@ export const fetchUserProfile = async () => {
 };
 
 export const login = async (email: string, password: string) => {
-  const response = await axiosInstance.post('/auth/login', {
+try{
+  const response = await axiosInstance.post('v1/user/login', {  
     email,
     password,
-  });
+  }); 
   return response.data;
+}catch(error){
+    console.error("Login error:", error);
+}
 };

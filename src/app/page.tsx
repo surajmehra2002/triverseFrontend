@@ -22,10 +22,11 @@ export default function Login() {
 
     try {
       const res = await login(email, password);
+      console.log("res is: ", res)
       localStorage.setItem('token', res.token); // store token
       router.push('/dashboard');
     } catch (err) {
-      setError('Invalid credentials. Please try again.');
+      setError('Invalid credentials. Please try again...');
       console.error('Login failed:', err);
     }
   };
