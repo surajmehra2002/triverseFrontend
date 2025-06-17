@@ -8,17 +8,37 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent } from "@/components/ui/card";
+import { signup } from '@/api/services/user_signup/user';
+import { useRouter } from 'next/navigation';
 
 export default function Partner() {
+  const router = useRouter();
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [isVerified, setIsVerified] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
+
     if (!isVerified) {
       alert("Please verify before signing up.");
       return;
     }
-    console.log("Form submitted");
+
+    const fullName = `${firstName} ${lastName}`.trim();
+
+    console.log("register data is: ",fullName, email, password)
+
+    try {
+      const res = await signup(fullName, email, password);
+      console.log("Signup successful", res);
+      router.push('/');
+    } catch (error) {
+      console.error("Signup failed", error);
+      alert("Signup failed. Please try again.");
+    }
   };
 
   return (
@@ -39,7 +59,6 @@ export default function Partner() {
 
       {/* Right Side */}
       <div className="w-full md:w-[35%] relative min-h-[300px] md:min-h-screen flex items-center justify-center px-6 py-10 bg-yellow-400">
-        {/* Background image overlay */}
         <div className="absolute inset-0">
           <Image
             src="/images/sign.jpg"
@@ -50,14 +69,12 @@ export default function Partner() {
           />
         </div>
 
-        {/* Form Card */}
         <Card className="w-full max-w-md z-10 relative shadow-md">
           <CardContent className="space-y-3 py-6">
-            {/* Logo */}
-            <div className="flex justify-center ">
+            <div className="flex justify-center">
               <Image
                 src="/images/trilogo.jpg"
-                alt=" Logo"
+                alt="Logo"
                 width={70}
                 height={70}
                 className="object-contain"
@@ -68,24 +85,31 @@ export default function Partner() {
               <h2 className="text-xl font-semibold text-black">Become a Partner</h2>
             </div>
 
-            <form className="space-y-3" onSubmit={handleSubmit}>
-              {/* Name Fields */}
+            <form className="space-y-3" onSubmit={handleSignup}>
               <div className="flex gap-2">
                 <Input
                   type="text"
                   placeholder="First Name"
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
                   className="bg-white text-black"
+                  required
                 />
                 <Input
                   type="text"
                   placeholder="Last Name"
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
                   className="bg-white text-black"
+                  required
                 />
               </div>
 
               <Input
                 type="email"
                 placeholder="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 className="bg-white text-black"
                 required
               />
@@ -93,6 +117,8 @@ export default function Partner() {
               <Input
                 type="password"
                 placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 className="bg-white text-black"
                 required
               />
