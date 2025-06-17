@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent } from "@/components/ui/card";
 import { signup } from '@/api/services/user_signup/user';
 import { useRouter } from 'next/navigation';
+import { Loader2 } from "lucide-react";
 
 export default function Partner() {
   const router = useRouter();
@@ -18,6 +19,8 @@ export default function Partner() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isVerified, setIsVerified] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -28,16 +31,18 @@ export default function Partner() {
     }
 
     const fullName = `${firstName} ${lastName}`.trim();
-
-    // console.log("register data is: ",fullName, email, password)
+    setLoading(true);
+    setError(null);
 
     try {
       const res = await signup(fullName, email, password);
       console.log("Signup successful", res);
       router.push('/');
-    } catch (error) {
-      console.error("Signup failed", error);
-      alert("Signup failed. Please try again.");
+    } catch (err) {
+      console.error("Signup failed", err);
+      setError("Signup failed. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -142,9 +147,21 @@ export default function Partner() {
               <Button
                 type="submit"
                 className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+                disabled={loading}
               >
-                Sign-up
+                {loading ? (
+                  <div className="flex items-center justify-center gap-2">
+                    <Loader2 className="animate-spin h-4 w-4" />
+                    Signing up...
+                  </div>
+                ) : (
+                  "Sign-up"
+                )}
               </Button>
+
+              {error && (
+                <p className="text-sm text-red-600 text-center">{error}</p>
+              )}
             </form>
           </CardContent>
         </Card>

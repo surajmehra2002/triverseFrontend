@@ -9,25 +9,30 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent } from '@/components/ui/card';
 import { login } from '@/api/services/user_login/user';
+import { Loader2 } from 'lucide-react';
 
 export default function Login() {
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+    setLoading(true);
 
     try {
       const res = await login(email, password);
-      console.log("res is: ", res)
+      console.log("res is: ", res);
       localStorage.setItem('token', res.token); // store token
       router.push('/dashboard');
     } catch (err) {
       setError('Invalid credentials. Please try again...');
       console.error('Login failed:', err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -108,8 +113,19 @@ export default function Login() {
                 </Link>
               </div>
 
-              <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white">
-                Login
+              <Button
+                type="submit"
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+                disabled={loading}
+              >
+                {loading ? (
+                  <div className="flex items-center justify-center gap-2">
+                    <Loader2 className="animate-spin h-4 w-4" />
+                    Logging in...
+                  </div>
+                ) : (
+                  "Login"
+                )}
               </Button>
             </form>
 
