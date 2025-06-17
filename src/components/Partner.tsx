@@ -29,7 +29,7 @@ export default function Partner() {
 
     const fullName = `${firstName} ${lastName}`.trim();
 
-    console.log("register data is: ",fullName, email, password)
+    // console.log("register data is: ",fullName, email, password)
 
     try {
       const res = await signup(fullName, email, password);
