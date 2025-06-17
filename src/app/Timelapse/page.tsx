@@ -27,7 +27,7 @@ export default function TimelapsePage() {
 
   return (
     <div className="p-4 sm:p-6 h-full relative">
-      <div className="border border-gray-300 w-full h-[60vh] sm:h-[70vh] rounded relative overflow-hidden">
+      <div className="border border-gray-300 w-full h-[60vh] sm:h-[85vh] rounded relative overflow-hidden">
         <div
           onClick={handlePrev}
           className="absolute top-1/2 left-2 sm:left-4 transform -translate-y-1/2 z-10 cursor-pointer"
