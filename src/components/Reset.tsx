@@ -6,19 +6,45 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
+import { userreset } from '@/api/services/user_reset/user';
+import axios from 'axios';
 
 export default function Reset() {
-  const isTestMode = false;
-  const [isVerified] = useState(isTestMode);
+  const [email, setEmail] = useState('');
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError('');
+    setSuccess('');
 
-    if (isVerified) {
-      alert('✅ Reset link sent successfully.');
-    } else {
-      alert('❌ Please verify before sending.');
+    if (!email || !/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) {
+      setError('❌ Please enter a valid email address.');
+      return;
     }
+
+    try {
+  setIsLoading(true);
+  const res = await userreset(email);
+
+  if (res.status === 200) {
+    setSuccess(res.data?.message || '✅ Reset link sent successfully.');
+    setEmail('');
+  } else {
+    setError('❌ Something went wrong. Please try again.');
+  }
+} catch (err: unknown) {
+  if (axios.isAxiosError(err)) {
+    setError(err.response?.data?.message || '❌ Failed to send reset link.');
+  } else {
+    setError('❌ An unexpected error occurred.');
+  }
+} finally {
+  setIsLoading(false);
+}
+
   };
 
   return (
@@ -61,7 +87,6 @@ export default function Reset() {
               </p>
             </div>
 
-            {/* ✅ Form */}
             <form className="space-y-4" onSubmit={handleSubmit}>
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
@@ -69,16 +94,21 @@ export default function Reset() {
                   id="email"
                   type="email"
                   placeholder="Enter Your Email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   required
                   className="bg-white"
                 />
+                {error && <p className="text-sm text-red-600">{error}</p>}
+                {success && <p className="text-sm text-green-600">{success}</p>}
               </div>
 
               <Button
                 type="submit"
+                disabled={isLoading}
                 className="w-full bg-blue-600 hover:bg-blue-700 text-white"
               >
-                Send
+                {isLoading ? 'Sending...' : 'Send'}
               </Button>
             </form>
           </CardContent>
