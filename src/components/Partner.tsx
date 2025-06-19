@@ -19,9 +19,11 @@ export default function Partner() {
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [password1, setPass] = useState('');
   const [isVerified, setIsVerified] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [confirmError, setConfirmError] = useState<string | null>(null); // ✅ Added for confirm password
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -31,38 +33,39 @@ export default function Partner() {
       return;
     }
 
+    if (password !== password1) {
+      setConfirmError("Passwords do not match");
+      return;
+    }
+
     const fullName = `${firstName} ${lastName}`.trim();
     setLoading(true);
     setError(null);
 
-   
-    
-      try {
-        const res = await signup(fullName, email, password);
-      
-        if (res && res.data && res.data.success === true) {
-          router.push('/');
-        } else {
-          const message = res?.data?.message ?? 'SignUp failed';
-          setError(message);
-        }
-      
-      } catch (err: unknown) {
-        if (err instanceof AxiosError) {
-          const message = err.response?.data?.message ?? 'Something went wrong with the server.';
-          setError(message);
-        } else if (err instanceof Error) {
-          setError(err.message);
-        } else {
-          setError('Unexpected error. Please try again.');
-        }
-      
-        console.error('SignUp failed:', err);
-      } finally {
-        setLoading(false);
+    try {
+      const res = await signup(fullName, email, password);
+
+      if (res && res.data && res.data.success === true) {
+        router.push('/');
+      } else {
+        const message = res?.data?.message ?? 'SignUp failed';
+        setError(message);
       }
 
-      
+    } catch (err: unknown) {
+      if (err instanceof AxiosError) {
+        const message = err.response?.data?.message ?? 'Something went wrong with the server.';
+        setError(message);
+      } else if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError('Unexpected error. Please try again.');
+      }
+
+      console.error('SignUp failed:', err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -82,7 +85,7 @@ export default function Partner() {
       </div>
 
       {/* Right Side */}
-      <div className="w-full md:w-[35%] relative min-h-[300px] md:min-h-screen flex items-center justify-center px-6 py-10 bg-yellow-400">
+      <div className="w-full md:w-[35%] relative min-h-[300px] md:min-h-screen flex items-center justify-center px-4 py-8 bg-yellow-400">
         <div className="absolute inset-0">
           <Image
             src="/images/sign.jpg"
@@ -94,7 +97,7 @@ export default function Partner() {
         </div>
 
         <Card className="w-full max-w-md z-10 relative shadow-md">
-          <CardContent className="space-y-3 py-6">
+          <CardContent className="space-y-3 ">
             <div className="flex justify-center">
               <Image
                 src="/images/trilogo.jpg"
@@ -142,10 +145,29 @@ export default function Partner() {
                 type="password"
                 placeholder="Password"
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                
+                }}
                 className="bg-white text-black"
                 required
               />
+
+              <Input
+                type="password"
+                placeholder="Confirm Password"
+                value={password1}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  setPass(value);
+              
+                }}
+                className="bg-white text-black"
+                required
+              />
+              {confirmError && (
+                <p className="text-sm text-red-600">{confirmError}</p>
+              )}
 
               <Textarea
                 placeholder="Your Message"

@@ -61,7 +61,7 @@ export default function DashboardPage() {
       }
 
       try {
-        const res = await axios.get('http://192.168.1.22:8000/v1/user/dashboard', {
+        const res = await axios.get('http://192.168.1.22:8000/v1/user/me', {
           headers: {
             Authorization: `Bearer ${token}`,
           },

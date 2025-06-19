@@ -2,8 +2,9 @@
 
 import React from "react";
 import Image from "next/image";
-import Link from "next/link";
+import { handleLogout } from "@/components/logout";
 import { IconSettings } from "@tabler/icons-react";
+import Link from "next/link";
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -27,20 +28,38 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
         {/* Settings Dropdown using shadcn */}
         <DropdownMenu>
-          <DropdownMenuTrigger className="focus:outline-none">
-            <IconSettings className="w-6 h-6 text-gray-800 hover:text-black" />
-          </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-48">
-            <DropdownMenuItem>Profile</DropdownMenuItem>
-            <DropdownMenuItem>Account Settings</DropdownMenuItem>
-            <DropdownMenuItem>Notifications</DropdownMenuItem>
-            <Link href="/">
-              <DropdownMenuItem asChild>
-                <span>Logout</span>
-              </DropdownMenuItem>
-            </Link>
-          </DropdownMenuContent>
-        </DropdownMenu>
+                   <DropdownMenuTrigger asChild>
+                     <button className="p-2 rounded-full bg-white hover:bg-gray-100 cursor-pointer">
+                       <IconSettings size={24} />
+                     </button>
+                   </DropdownMenuTrigger>
+                     <DropdownMenuContent align="end" className="sm:w-64 w-50 overflow-y-auto">
+                     {[
+                       "Update Project Status",
+                       "Update Password",
+                       "Manage Users",
+                       "Camera Status",
+                       "Two Factor Authentication",
+                       "Billing",
+                       "Support",
+                       "Email Notifications",
+                     ].map((item) => (
+                       <DropdownMenuItem
+                         key={item}
+                         className="cursor-pointer hover:bg-gray-100"
+                       >
+                         {item}
+                       </DropdownMenuItem>
+                     ))}
+                   
+                     {/* Logout as a separate Link item */}
+                       
+                                <DropdownMenuItem onClick={handleLogout} className="cursor-pointer hover:bg-gray-100">
+                                Logout
+                     </DropdownMenuItem>
+                             
+                   </DropdownMenuContent>
+                 </DropdownMenu>
       </header>
 
       {/* Main Content (no scrollbar) */}

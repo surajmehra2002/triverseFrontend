@@ -8,6 +8,7 @@ import {
   IconSettings,
 
 } from "@tabler/icons-react";
+import { handleLogout } from "@/components/logout";
 // import { CalendarIcon } from "lucide-react";
 import {
   DropdownMenu,
@@ -104,11 +105,11 @@ export default function TimelapseLayout({ children }: { children: React.ReactNod
   ))}
 
   {/* Logout as a separate Link item */}
-  <DropdownMenuItem className="cursor-pointer hover:bg-gray-100">
-    <Link href="/" className="w-full h-full block">
-      Logout
-    </Link>
+    
+             <DropdownMenuItem onClick={handleLogout} className="cursor-pointer hover:bg-gray-100">
+             Logout
   </DropdownMenuItem>
+          
 </DropdownMenuContent>
 
           </DropdownMenu>

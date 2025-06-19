@@ -31,6 +31,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { handleLogout } from "@/components/logout";
 import { Calendar } from "@/components/ui/calendar";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
@@ -103,7 +104,7 @@ export default function TimelapseLayout({ children }: { children: React.ReactNod
                 <IconSettings size={24} />
               </button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-64 max-h-[50vh] overflow-y-auto">
+              <DropdownMenuContent align="end" className="sm:w-64 w-50 overflow-y-auto">
               {[
                 "Update Project Status",
                 "Update Password",
@@ -113,7 +114,6 @@ export default function TimelapseLayout({ children }: { children: React.ReactNod
                 "Billing",
                 "Support",
                 "Email Notifications",
-                "Logout",
               ].map((item) => (
                 <DropdownMenuItem
                   key={item}
@@ -122,6 +122,13 @@ export default function TimelapseLayout({ children }: { children: React.ReactNod
                   {item}
                 </DropdownMenuItem>
               ))}
+            
+              {/* Logout as a separate Link item */}
+                
+                         <DropdownMenuItem onClick={handleLogout} className="cursor-pointer hover:bg-gray-100">
+                         Logout
+              </DropdownMenuItem>
+                      
             </DropdownMenuContent>
           </DropdownMenu>
         </div>

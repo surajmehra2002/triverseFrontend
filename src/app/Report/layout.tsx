@@ -1,3 +1,4 @@
+// app/timelapse/layout.tsx
 "use client";
 
 import React from "react";
@@ -7,7 +8,8 @@ import {
   IconSettings,
 
 } from "@tabler/icons-react";
-import { CalendarIcon } from "lucide-react";
+import { handleLogout } from "@/components/logout";
+// import { CalendarIcon } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -21,23 +23,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { Calendar } from "@/components/ui/calendar";
-import { Button } from "@/components/ui/button";
+
 import Image from "next/image";
 
 export default function TimelapseLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
-  const [date, setDate] = React.useState<Date | undefined>();
+  // const [date, setDate] = React.useState<Date | undefined>();
 
   return (
     <div className="flex flex-col h-screen bg-white text-black overflow-hidden">
       {/* Fixed Header */}
-      <header className=" fixed top-0 left-0 right-0 z-200 bg-yellow-400 px-3 py-2 flex items-center justify-between gap-2 sm:gap-4 border-b border-gray-300">
+      <header className="fixed top-0 left-0 right-0 z-200 bg-yellow-400 px-3 py-2 flex items-center justify-between gap-2 sm:gap-4 border-b border-gray-300">
         <div className="flex items-center gap-2 flex-shrink-0">
           <div className="w-8 h-8 text-lg sm:w-10 sm:h-10 sm:text-2xl font-bold rounded flex items-center justify-center">
          <Image src="/images/trilogo.jpg" alt="Logo" width={32} height={32} />
@@ -81,16 +77,7 @@ export default function TimelapseLayout({ children }: { children: React.ReactNod
             </SelectContent>
           </Select>
 
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button variant="outline" className="w-9 h-9 p-0">
-                <CalendarIcon className="h-4 w-4" />
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-auto p-0" align="start">
-              <Calendar mode="single" selected={date} onSelect={setDate} initialFocus />
-            </PopoverContent>
-          </Popover>
+         
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -98,26 +85,33 @@ export default function TimelapseLayout({ children }: { children: React.ReactNod
                 <IconSettings size={24} />
               </button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="sm:w-64 w-50 overflow-y-auto">
-              {[
-                "Update Project Status",
-                "Update Password",
-                "Manage Users",
-                "Camera Status",
-                "Two Factor Authentication",
-                "Billing",
-                "Support",
-                "Email Notifications",
-                "Logout",
-              ].map((item) => (
-                <DropdownMenuItem
-                  key={item}
-                  className="cursor-pointer hover:bg-gray-100"
-                >
-                  {item}
-                </DropdownMenuItem>
-              ))}
-            </DropdownMenuContent>
+           <DropdownMenuContent align="end" className="sm:w-64 w-50 overflow-y-auto">
+  {[
+    "Update Project Status",
+    "Update Password",
+    "Manage Users",
+    "Camera Status",
+    "Two Factor Authentication",
+    "Billing",
+    "Support",
+    "Email Notifications",
+  ].map((item) => (
+    <DropdownMenuItem
+      key={item}
+      className="cursor-pointer hover:bg-gray-100"
+    >
+      {item}
+    </DropdownMenuItem>
+  ))}
+
+  {/* Logout as a separate Link item */}
+    
+             <DropdownMenuItem onClick={handleLogout} className="cursor-pointer hover:bg-gray-100">
+             Logout
+  </DropdownMenuItem>
+          
+</DropdownMenuContent>
+
           </DropdownMenu>
         </div>
       </header>
@@ -126,7 +120,7 @@ export default function TimelapseLayout({ children }: { children: React.ReactNod
       
 
         {/* Main Content Area */}
-        <main className="flex-1 overflow-hidden sm:mt-6 mt-14">{children}</main>
+        <main className="flex-1 overflow-hidden">{children}</main>
       </div>
   
   );
