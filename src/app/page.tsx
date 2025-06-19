@@ -24,44 +24,41 @@ export default function Login() {
     setError('');
     setLoading(true);
 
- try {
-  const res = await login(email, password);
+    try {
+      const res = await login(email, password);
 
-  if (res && res.data && res.data.success === true) {
-    const token = res.data.token;
-    if (token) {
-      localStorage.setItem('token', token);
-      router.push('/dashboard');
-    } else {
-      setError('Login succeeded but token is missing.');
+      if (res && res.data && res.data.success === true) {
+        const token = res.data.token;
+        if (token) {
+          localStorage.setItem('token', token);
+          router.push('/dashboard');
+        } else {
+          setError('Login succeeded but token is missing.');
+        }
+      } else {
+        const message = res?.data?.message ?? 'Login failed';
+        setError(message);
+      }
+    } catch (err: unknown) {
+      if (err instanceof AxiosError) {
+        const message = err.response?.data?.message ?? 'Something went wrong with the server.';
+        setError(message);
+      } else if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError('Unexpected error. Please try again.');
+      }
+
+      console.error('Login failed:', err);
+    } finally {
+      setLoading(false);
     }
-  } else {
-    const message = res?.data?.message ?? 'Login failed';
-    setError(message);
-  }
-
-} catch (err: unknown) {
-  if (err instanceof AxiosError) {
-    const message = err.response?.data?.message ?? 'Something went wrong with the server.';
-    setError(message);
-  } else if (err instanceof Error) {
-    setError(err.message);
-  } else {
-    setError('Unexpected error. Please try again.');
-  }
-
-  console.error('Login failed:', err);
-} finally {
-  setLoading(false);
-}
-
-
   };
 
   return (
     <div className="min-h-screen flex flex-col md:flex-row">
       {/* Left Side with Image */}
-      <div className="relative w-full md:w-[65%] h-[250px] md:h-auto">
+      <div className="relative w-full md:w-[65%] h-[200px] md:h-auto">
         <Image
           src="/images/servic-2.jpg"
           alt="Carousel"
@@ -75,7 +72,7 @@ export default function Login() {
       </div>
 
       {/* Right Side - Login with Background Image */}
-      <div className="relative w-full md:w-[35%] flex items-center justify-center px-4 py-10">
+      <div className="relative w-full md:w-[35%] flex items-center justify-center px-4 py-10 bg-white/80 backdrop-blur-sm md:bg-transparent z-10">
         {/* Background Image */}
         <Image
           src="/images/login.jpg"
@@ -89,7 +86,7 @@ export default function Login() {
         <div className="absolute inset-0 backdrop-brightness-90 z-10"></div>
 
         {/* Login Card */}
-        <Card className="w-full max-w-sm shadow-md z-20">
+        <Card className="w-full max-w-sm shadow-md z-20 md:mt-0 mt-6">
           <CardContent className="space-y-6 py-6">
             <div className="flex justify-center">
               <Image

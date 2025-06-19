@@ -32,6 +32,7 @@ export default function Reset() {
   if (res.status === 200) {
     setSuccess(res.data?.message || '✅ Reset link sent successfully.');
     setEmail('');
+    
   } else {
     setError('❌ Something went wrong. Please try again.');
   }
