@@ -2,21 +2,22 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 
 export default function Reset() {
-  const [isVerified] = useState(false);
+  const isTestMode = false;
+  const [isVerified] = useState(isTestMode);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
     if (isVerified) {
-      console.log('Sending reset link...');
+      alert('✅ Reset link sent successfully.');
     } else {
-      alert('Please verify before sending.');
+      alert('❌ Please verify before sending.');
     }
   };
 
@@ -40,10 +41,9 @@ export default function Reset() {
 
       {/* Right Side */}
       <div className="w-full md:w-[35%] relative min-h-[300px] md:min-h-screen flex items-center justify-center px-6 py-10 bg-yellow-400">
-        {/* Background image for right side */}
         <div className="absolute inset-0">
           <Image
-            src="/images/sign.jpg" // Same or different image as desired
+            src="/images/sign.jpg"
             alt="Right Background"
             fill
             className="object-cover"
@@ -51,7 +51,7 @@ export default function Reset() {
           />
         </div>
 
-        {/* Overlay card above the background */}
+        {/* Reset Card */}
         <Card className="w-full max-w-sm shadow-md z-10 relative">
           <CardContent className="space-y-6 py-6">
             <div className="text-center space-y-1">
@@ -61,6 +61,7 @@ export default function Reset() {
               </p>
             </div>
 
+            {/* ✅ Form */}
             <form className="space-y-4" onSubmit={handleSubmit}>
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
@@ -73,8 +74,11 @@ export default function Reset() {
                 />
               </div>
 
-              <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white">
-                <Link href="/Confirm" className="w-full block text-center">Send</Link>
+              <Button
+                type="submit"
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+              >
+                Send
               </Button>
             </form>
           </CardContent>
