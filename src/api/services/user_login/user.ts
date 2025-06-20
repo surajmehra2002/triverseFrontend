@@ -2,13 +2,13 @@ import axiosInstance from "../../axiosInstance";
 import { AxiosError } from "axios";
 
 export const fetchUserProfile = async () => {
-  const response = await axiosInstance.get('/user/profile');
+  const response = await axiosInstance.get('/auth/profile');
   return response.data;
 };
 
 export const login = async (email: string, password: string) => {
   try {
-    const response = await axiosInstance.post('v1/user/login', {  
+    const response = await axiosInstance.post('v1/auth/login', {  
       email,
       password,
     }); 
