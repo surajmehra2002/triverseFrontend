@@ -2,27 +2,28 @@
 
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { confirm } from '@/api/services/user_confirm/user';
 import axios from 'axios';
-import { useSearchParams } from 'next/navigation';
-export default function Confirm() {
-  const router = useRouter();
-const searchParams = useSearchParams();
-  const token = searchParams.get('user');
 
-  if (!token){
-    router.push('/')
-  }
+export default function Confirm({ token }: { token: string | null }) {
+  const router = useRouter();
+
   const [password1, setPassword1] = useState('');
   const [password2, setPassword2] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    if (!token) {
+      router.push('/');
+    }
+  }, [token, router]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
