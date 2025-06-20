@@ -95,9 +95,9 @@ export default function TimelapseLayout({ children }: { children: React.ReactNod
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <button className="p-2 rounded-full bg-white hover:bg-gray-100 cursor-pointer">
+              <Button className="p-2 rounded-full bg-white hover:bg-gray-100 cursor-pointer">
                 <IconSettings size={24} />
-              </button>
+              </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="sm:w-64 w-50 overflow-y-auto">
               {[

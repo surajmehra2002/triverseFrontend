@@ -2,6 +2,7 @@
 
 import React from "react";
 import Image from "next/image";
+import { Button } from "@/components/ui/button";
 import { handleLogout } from "@/components/logout";
 import { IconSettings } from "@tabler/icons-react";
 import Link from "next/link";
@@ -29,9 +30,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         {/* Settings Dropdown using shadcn */}
         <DropdownMenu>
                    <DropdownMenuTrigger asChild>
-                     <button className="p-2 rounded-full bg-white hover:bg-gray-100 cursor-pointer">
+                     <Button className="p-2 rounded-full bg-white hover:bg-gray-100 cursor-pointer">
                        <IconSettings size={24} />
-                     </button>
+                     </Button>
                    </DropdownMenuTrigger>
                      <DropdownMenuContent align="end" className="sm:w-64 w-50 overflow-y-auto">
                      {[
