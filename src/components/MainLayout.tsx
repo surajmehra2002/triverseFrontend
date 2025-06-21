@@ -177,24 +177,24 @@ export default function MainLayout({
           <div className={`fixed inset-y-0 right-0 w-80 bg-white h-full flex flex-col transform transition-transform duration-300 ease-in-out z-30 ${showSettingsSidebar ? 'translate-x-0' : 'translate-x-full'}`}>
             <div className="p-4 border-b border-gray-200 flex justify-between items-center">
               <h2 className="text-xl font-bold">Settings</h2>
-              <button 
+              <Button 
                 onClick={() => setShowSettingsSidebar(false)}
                 className="p-1 rounded-full hover:bg-gray-100"
               >
                 <IconX size={20} />
-              </button>
+              </Button>
             </div>
             
             <div className="flex-1 overflow-y-auto">
               <ul className="py-2">
                 {settingsItems.map((item) => (
                   <li key={item}>
-                    <button
+                    <Button
                       onClick={() => handleSettingClick(item)}
                       className={`w-full text-left px-4 py-3 hover:bg-gray-100 ${activeSetting === item ? 'bg-gray-100 font-medium' : ''}`}
                     >
                       {item}
-                    </button>
+                    </Button>
                     {activeSetting === item && (
                       <div className="px-4 py-3 bg-gray-50 border-t border-b border-gray-200">
                         {item === "Update Password" && (
