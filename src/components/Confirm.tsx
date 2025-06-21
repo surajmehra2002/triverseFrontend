@@ -10,7 +10,7 @@ import { Label } from '@/components/ui/label';
 import { confirm } from '@/api/services/user_confirm/user';
 import axios from 'axios';
 
-export default function Confirm({ token }: { token: string | null }) {
+export default function Confirm({ params }:{ params: { token: string } }) {
   const router = useRouter();
 
   const [password1, setPassword1] = useState('');

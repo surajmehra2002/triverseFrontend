@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
+import Link from 'next/link';
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -203,7 +204,11 @@ export default function Partner() {
               {error && (
                 <p className="text-sm text-red-600 text-center">{error}</p>
               )}
+
             </form>
+            <p>Already have an account? {' '}
+              <Link href='/' className="underline font-semibold text-blue-700">Login In</Link>
+            </p>
           </CardContent>
         </Card>
       </div>
