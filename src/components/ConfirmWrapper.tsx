@@ -5,7 +5,7 @@ import Confirm from './Confirm';
 
 export default function ConfirmWrapper() {
   const searchParams = useSearchParams();
-  const token = searchParams.get('user');
+  const token = searchParams.get('user'); // or 'token' depending on your URL param key
 
-  return <Confirm token={token} />;
+  return <Confirm params={{ token: token ?? '' }} />;
 }
