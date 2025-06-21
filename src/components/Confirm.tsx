@@ -20,10 +20,10 @@ export default function Confirm({ params }:{ params: { token: string } }) {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    if (!token) {
-      router.push('/');
-    }
-  }, [token, router]);
+  if (!params?.token) {
+    router.push('/');
+  }
+}, [params?.token, router]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -37,7 +37,9 @@ export default function Confirm({ params }:{ params: { token: string } }) {
 
     try {
       setIsLoading(true);
-      const res = await confirm(password1, password2);
+      // const res = await confirm(password1, password2);
+      const res = await confirm(password1, password2, params.token);
+
 
       if (res.status === 200) {
         setSuccess(res.data?.message || '✅ Password reset successfully');
